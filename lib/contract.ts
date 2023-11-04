@@ -34,6 +34,17 @@ const TRANSACTION_OPTIONS = {
   gas_unit_price: "100",
 };
 
+export async function getAccountt(address: string) {
+  try {
+    const account = await provider.getAccount(address);
+    console.log("result", account);
+    return;
+  } catch (e) {
+    console.log("error", e);
+    return 0;
+  }
+}
+
 export async function getAptosBalance(address: string) {
   try {
     const balance = await coinClient.checkBalance(address);
@@ -44,8 +55,7 @@ export async function getAptosBalance(address: string) {
     return 0;
   }
 }
-
-async function fundAccount(accountToFund: AptosAccount) {
+export async function fundAccount(accountToFund: AptosAccount) {
   try {
     if ((await getAptosBalance(accountToFund.address().toString())) > 0.5) {
       return;
@@ -55,6 +65,8 @@ async function fundAccount(accountToFund: AptosAccount) {
   }
 
   await faucetClient.fundAccount(accountToFund.address(), 5000_0000);
+  // alert("Funded");
+  console.log("funded");
 }
 
 /* 
