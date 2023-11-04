@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Jim_Nightshade } from "next/font/google";
+import { Julius_Sans_One } from "next/font/google";
+import { Jura } from "next/font/google";
 
 import "./globals.css";
 import { getServerSession } from "next-auth";
@@ -8,6 +10,7 @@ import { authOptions } from "@/server/auth";
 import Dashboard from "@/components/Dashboard";
 
 const inter = Inter({ subsets: ["latin"] });
+const julius = Jura({ weight: "400", subsets: ["latin"] });
 const Jim = Jim_Nightshade({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,7 +21,7 @@ export const metadata: Metadata = {
 export default async function RootLayout(props: {
   children: React.ReactNode;
   login: React.ReactNode;
-  soft: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
   // console.log("ovd", session);
@@ -34,7 +37,7 @@ export default async function RootLayout(props: {
     <html lang='en'>
       <body className={`flex ${Jim.className}`}>
         <Dashboard session={session} />
-        <div className='w-[75%]'>{props.children}</div>
+        <div className={` ${julius.className} flex-1`}>{props.children}</div>
       </body>
     </html>
   );

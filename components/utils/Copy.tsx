@@ -1,3 +1,5 @@
+"use client";
+
 import { getAccountt, getAptosBalance } from "@/lib/contract";
 
 const Copy = ({ content }: { content: string }) => {

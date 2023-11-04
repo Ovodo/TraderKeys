@@ -1,4 +1,4 @@
-import { AptosAccount } from "aptos";
+import { AptosAccount, HexString } from "aptos";
 import { NextAuthOptions, getServerSession } from "next-auth";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
@@ -13,10 +13,9 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.TWITTER_ID as string,
       clientSecret: process.env.TWITTER_SECRET as string,
       version: "2.0",
-      async profile(profile: TwitterProfile) {
+      profile(profile: TwitterProfile) {
         const wallet = new AptosAccount();
         const privateKey = wallet.toPrivateKeyObject().privateKeyHex;
-        await fundAccount(wallet);
 
         return {
           id: profile.data.id,
@@ -49,8 +48,13 @@ export const authOptions: NextAuthOptions = {
     },
   },
   events: {
-    signIn(user) {
-      console.log("signout", user);
+    async signIn({ user, account }) {
+      const aptosAccount = new AptosAccount(
+        new HexString(user.privateKey).toUint8Array()
+      );
+      await fundAccount(aptosAccount);
+
+      console.log("funded");
     },
   },
 };
