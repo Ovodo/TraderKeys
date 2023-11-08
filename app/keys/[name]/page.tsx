@@ -6,24 +6,42 @@ import { Session, getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import Copy from "@/components/utils/Copy";
 import BuyButton from "@/components/button/BuyButton";
+import InitModal from "@/components/modals/InitModal";
+import NewTicketModal from "@/components/modals/NewTicketModal";
 
 const itemStyle = "text-lg text-slate-900 text-center border-r border-black";
 
-const Page = async () => {
+const Page = async ({
+  params,
+  searchParams,
+}: {
+  params: { name: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
   const session = (await getServerSession(authOptions)) as Session;
-  // const showModal = searchParams?.modal;
+  const showModal = searchParams?.modal;
+  console.log(showModal);
+
   return (
-    <main className='flex min-h-screen  relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-start p-10'>
+    <main className='flex min-h-screen  relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-start px-10 py-5'>
+      <div className='flex  flex-col justify-center space-x-5 absolute bottom-5 right-10  items-center'>
+        <h4 className='text-3xl text-appBlue font-semibold'>New Ticket</h4>
+        <AddButton path='?modal=true' />
+      </div>
+      <h4 className='text-2xl absolute bottom-3 left-2 text-appBlue font-semibold'>
+        {`${session.user.name}`}
+      </h4>
       <section
         id='TOP'
         className='w-full border-b pb-1 flex border-appBlue justify-around'
       >
-        <div className='flex flex-col  items-center'>
+        <div className='flex flex-col space-y-3  items-center'>
           <div className='flex space-x-5 items-center'>
             <h4 className='text-2xl text-appBlue font-semibold'>
-              @this_is_banance
+              {`@${params.name}`}
             </h4>
             <Image
+              priority
               width={15}
               height={15}
               className='rotate-90'
@@ -52,7 +70,8 @@ const Page = async () => {
           <p className='text-2xl text-green-700'>28%</p>
         </div>
       </section>
-      <div className='h-[70vh] mt-5 self-start bg-appCream w-[75%]  border-2 border-appOrange border-opacity-10'>
+      {showModal && <NewTicketModal />}
+      <section className='h-[70vh] mt-5 self-start bg-appCream w-[75%]  border-2 border-appOrange border-opacity-10'>
         <h4 className='text-3xl cursor-pointer w-full text-center text-appBlue font-semibold'>
           Tickets
         </h4>
@@ -64,14 +83,7 @@ const Page = async () => {
           <p className={itemStyle}>CLOSE PRICE</p>
           <p className='text-lg text-slate-900 text-center'>PNL</p>
         </div>
-      </div>
-      <div className='flex  flex-col justify-center space-x-5 absolute bottom-5 right-10  items-center'>
-        <h4 className='text-3xl text-appBlue font-semibold'>New Ticket</h4>
-        <AddButton path='/keys/?modal=true' />
-      </div>
-      <h4 className='text-2xl absolute bottom-3 left-2 text-appBlue font-semibold'>
-        {`${session.user.name}`}
-      </h4>
+      </section>
     </main>
   );
 };

@@ -15,10 +15,11 @@ declare module "next-auth" {
   interface User extends Omit<DefaultUser, "id"> {
     id: sting;
     name: string;
+    username: string;
     image: string;
-    address: MaybeHexString;
+    key?: string;
+    address: string;
     privateKey: string;
     created_at: Date;
-    is_banned: boolean;
   }
 }
