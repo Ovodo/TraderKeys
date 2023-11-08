@@ -1,15 +1,19 @@
 import { Schema, model, models } from "mongoose";
 
-const UserSchema = new Schema({
-  id: { type: String, required: true },
-  name: { type: String, required: true },
-  image: { type: String, required: true },
-  address: { type: String, required: true },
-  privateKey: { type: String, required: true },
-  created_at: { type: Date, default: Date.now },
-  is_banned: { type: Boolean, default: false },
+const TicketSchema = new Schema({
+  pair: { type: String, required: [true, "asset pair is required"] },
+  open: { type: Number, required: [true, "ticket must have an opening price"] },
+  close: { type: Number, required: false },
+  pnl: { type: String, required: false },
 });
 
-const User = models.User || model("Users", UserSchema);
+const KeySchema = new Schema({
+  name: { type: String, required: [true, "Key must have a name"] },
+  address: { type: String, required: [true, "Key must have an address"] },
+  owner: { type: String, required: [true, "Key must have an owner"] },
+  ticket: [TicketSchema],
+  price: { type: Number, required: false },
+  value: { type: Number, required: false },
+});
 
-export default User;
+export const Key = models.Key || model("Key", KeySchema);

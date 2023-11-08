@@ -15,6 +15,19 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+/* This will hide the scrollbar for Chrome, Safari, etc. */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* This will hide the scrollbar for Firefox */
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+/* This will hide the scrollbar for Chrome, Safari, etc. */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
 body {
   color: rgb(var(--foreground-rgb));

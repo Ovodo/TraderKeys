@@ -8,10 +8,8 @@ import "./globals.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";
 import Dashboard from "@/components/Dashboard";
-
-const inter = Inter({ subsets: ["latin"] });
-const julius = Jura({ weight: "400", subsets: ["latin"] });
-const Jim = Jim_Nightshade({ weight: "400", subsets: ["latin"] });
+import useFonts from "@/hooks/useFonts";
+import { Providers } from "@/redux/provider";
 
 export const metadata: Metadata = {
   title: "Trader Keys",
@@ -24,6 +22,7 @@ export default async function RootLayout(props: {
   modal: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  const { Jim, julius } = useFonts();
   // console.log("ovd", session);
 
   if (!session) {
@@ -35,10 +34,12 @@ export default async function RootLayout(props: {
   }
   return (
     <html lang='en'>
-      <body className={`flex ${Jim.className}`}>
-        <Dashboard session={session} />
-        <div className={` ${julius.className} flex-1`}>{props.children}</div>
-      </body>
+      <Providers>
+        <body className={`flex ${Jim.className}`}>
+          <Dashboard session={session} />
+          <div className={` ${julius.className} flex-1`}>{props.children}</div>
+        </body>
+      </Providers>
     </html>
   );
 }

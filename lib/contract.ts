@@ -48,7 +48,7 @@ export async function getAccountt(address: string) {
 export async function getAptosBalance(address: string) {
   try {
     const balance = await coinClient.checkBalance(address);
-    console.log("balance", balance);
+    // console.log("balance", balance);
     return Number(balance) / 1_0000_0000;
   } catch (e) {
     console.log("error getting balance", e);
@@ -65,8 +65,10 @@ export async function fundAccount(accountToFund: AptosAccount) {
   }
 
   await faucetClient.fundAccount(accountToFund.address(), 5000_0000);
-  // alert("Funded");
-  console.log("funded");
+}
+export async function initializeAccount(accountToFund: AptosAccount) {
+  await faucetClient.fundAccount(accountToFund.address(), 100000000, 1);
+  console.log("funded2");
 }
 
 /* 

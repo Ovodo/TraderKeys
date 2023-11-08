@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SwitchIcon } from "@radix-ui/react-icons";
 
-const nav = ["Dashboard", "Keys", "Accounts", "Trade History"];
+const nav = ["Profile", "Accounts", "Tickets", "Trade History", "Security"];
 const Dashboard = ({ session }: { session: Session }) => {
   const [hide, setHide] = useState(false);
   return (
@@ -46,7 +46,7 @@ const Dashboard = ({ session }: { session: Session }) => {
                 <Link
                   key={item}
                   className='text-appCream tracking-wide hover:text-appOrange'
-                  href={`${item == "Dashboard" ? "/" : item.toLowerCase()}`}
+                  href={`${item == "Profile" ? "/" : item.toLowerCase()}`}
                 >
                   {item}
                 </Link>

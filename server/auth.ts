@@ -4,7 +4,14 @@ import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
 
 import TwitterProvider, { TwitterProfile } from "next-auth/providers/twitter";
-import { fundAccount } from "@/lib/contract";
+import {
+  fundAccount,
+  getAccountt,
+  getAptosBalance,
+  initializeAccount,
+} from "@/lib/contract";
+import { hashPrivateKey } from "@/lib/actions";
+import { encrypt } from "@/lib/security";
 
 export const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -13,50 +20,46 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.TWITTER_ID as string,
       clientSecret: process.env.TWITTER_SECRET as string,
       version: "2.0",
-      profile(profile: TwitterProfile) {
+      async profile(profile: TwitterProfile) {
         const wallet = new AptosAccount();
         const privateKey = wallet.toPrivateKeyObject().privateKeyHex;
+        const hash = await encrypt(privateKey);
+        await initializeAccount(wallet);
 
         return {
           id: profile.data.id,
           name: profile.data.name ?? "",
-          address: wallet.address(),
+          username: profile.data.username,
+          address: wallet.toPrivateKeyObject().address as string,
           image: profile.data.profile_image_url ?? "",
           created_at: new Date(),
-          privateKey,
-          is_banned: false,
+          privateKey: hash,
         };
       },
     }),
   ],
   callbacks: {
     async session({ session, user }) {
-      console.log("usser", user);
-
       return {
         ...session,
         user: {
           id: user.id,
           name: user.name,
+          username: user.username,
           address: user.address,
           image: user.image,
           created_at: user.created_at,
           privateKey: user.privateKey,
-          is_banned: user.is_banned,
         },
       };
     },
   },
-  events: {
-    async signIn({ user, account }) {
-      const aptosAccount = new AptosAccount(
-        new HexString(user.privateKey).toUint8Array()
-      );
-      await fundAccount(aptosAccount);
-
-      console.log("funded");
-    },
-  },
+  // events: {
+  //   async signIn({ user, account }) {
+  //     const aptosAccount = new AptosAccount(undefined, user.address);
+  //     await initializeAccount(aptosAccount);
+  //   },
+  // },
 };
 
 /**
