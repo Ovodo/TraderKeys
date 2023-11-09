@@ -124,7 +124,10 @@ export default async function Home({ searchParams }: Props) {
             (key: PrivateKey) => key.address === item.address
           );
           return (
-            <div className=' w-full border-double border-y border-opacity-50 border-slate-900 grid grid-cols-[.5fr,4fr,1fr,2fr,1.5fr]'>
+            <div
+              key={item.address}
+              className=' w-full border-double border-y border-opacity-50 border-slate-900 grid grid-cols-[.5fr,4fr,1fr,2fr,1.5fr]'
+            >
               <p className={itemStyle}>{index}</p>
               <Link
                 className={itemStyle}

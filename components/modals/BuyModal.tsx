@@ -46,18 +46,17 @@ const BuyModal = ({ author, keyAddress, user }: Props) => {
     }
   };
 
-  const setPrices = async () => {
-    const price = await getBuyPrice(keyAddress, amount);
-    const priceAfter = await getBuyPriceAfterFees(keyAddress, amount);
-    setPrice(price);
-    setPriceAfterFees(priceAfter);
-  };
-
   // ______________________-UseEffects________________________________________-
 
   useEffect(() => {
+    const setPrices = async () => {
+      const price = await getBuyPrice(keyAddress, amount);
+      const priceAfter = await getBuyPriceAfterFees(keyAddress, amount);
+      setPrice(price);
+      setPriceAfterFees(priceAfter);
+    };
     setPrices();
-  }, [amount]);
+  }, [amount, keyAddress]);
 
   if (isLoading) {
     return (

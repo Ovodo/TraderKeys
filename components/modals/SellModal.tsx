@@ -46,22 +46,21 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
     }
   };
 
-  const setPrices = async () => {
-    if (amount !== 0 || keyAddress !== "") {
-      const price = await getSellPrice(keyAddress, amount);
-      const priceAfter = await getSellPriceAfterFees(keyAddress, amount);
-      setPrice(price);
-      setPriceAfterFees(priceAfter);
-    } else {
-      return;
-    }
-  };
-
   // ______________________-UseEffects________________________________________-
 
   useEffect(() => {
+    const setPrices = async () => {
+      if (amount !== 0 || keyAddress !== "") {
+        const price = await getSellPrice(keyAddress, amount);
+        const priceAfter = await getSellPriceAfterFees(keyAddress, amount);
+        setPrice(price);
+        setPriceAfterFees(priceAfter);
+      } else {
+        return;
+      }
+    };
     setPrices();
-  }, [amount]);
+  }, [amount, keyAddress]);
 
   if (isLoading) {
     return (

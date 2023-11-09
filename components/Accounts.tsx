@@ -38,7 +38,10 @@ const Accounts = ({ data }: { data: User[] }) => {
         {users.map((user, index) => {
           const price = getBuyPrice(user.address, 1);
           return (
-            <div className=' w-full border-double border- border-opacity-50 border-slate-900 grid grid-cols-[0.3fr,1.5fr,1.5fr,1fr]'>
+            <div
+              key={user.address}
+              className=' w-full border-double border- border-opacity-50 border-slate-900 grid grid-cols-[0.3fr,1.5fr,1.5fr,1fr]'
+            >
               <p className={itemStyle}>{index + 1}</p>
               <Link href={`/`}>
                 <p className={itemStyle}>{user.name ?? "__"}</p>

@@ -102,7 +102,7 @@ const InitModal = ({ user }: { user: User }) => {
         exit={{ width: "0%" }}
         className='bg-white rounded-md shadow-sm shadow-slate-900 py-2 z-20 relative  flex flex-col items-center justify-between w-[55vw] h-[200px]'
       >
-        <p className=''>Key addresses must start with the "@" symbol</p>
+        <p className=''>Key addresses must start with the @ symbol</p>
         <div className='flex items-center'>
           <label className='mr-3'>Address:</label>
           <input
