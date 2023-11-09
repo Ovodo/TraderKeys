@@ -46,7 +46,7 @@ const Dashboard = ({ session }: { session: Session }) => {
                 <Link
                   key={item}
                   className='text-appCream tracking-wide hover:text-appOrange'
-                  href={`${item == "Profile" ? "/" : item.toLowerCase()}`}
+                  href={`/${item == "Profile" ? "" : item.toLowerCase()}`}
                 >
                   {item}
                 </Link>

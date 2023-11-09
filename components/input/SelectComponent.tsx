@@ -11,9 +11,15 @@ import { usePathname, useSearchParams } from "next/navigation";
 type Props = {
   placeholder: string;
   items: string[];
-  updateFunction: () => void;
+  updateFunction: (item?: string) => void;
+  path: string;
 };
-const SelectComponent = ({ items, placeholder, updateFunction }: Props) => {
+const SelectComponent = ({
+  items,
+  placeholder,
+  updateFunction,
+  path,
+}: Props) => {
   const queryString = useSearchParams().toString();
 
   const [open, setOpen] = useState(false);
@@ -37,23 +43,24 @@ const SelectComponent = ({ items, placeholder, updateFunction }: Props) => {
             {items?.map((item: any) => (
               <Link
                 key={item}
-                href={
-                  queryString === "modal=true"
-                    ? `?modal=true&category=${item}`
-                    : queryString.includes("modal=true&category")
-                    ? `?${
-                        queryString.includes("&asset")
-                          ? queryString.split("&asset")[0]
-                          : queryString
-                      }&asset=${item}`
-                    : `?${queryString}`
-                }
+                href={`${path}${item}`}
+                // href={
+                //   queryString === "modal=true"
+                //     ? `?modal=true&category=${item}`
+                //     : queryString.includes("modal=true&category")
+                //     ? `?${
+                //         queryString.includes("&asset")
+                //           ? queryString.split("&asset")[0]
+                //           : queryString
+                //       }&asset=${item}`
+                //     : `?${queryString}`
+                // }
               >
                 <p
                   onClick={() => {
                     setValue(item);
                     setOpen(false);
-                    updateFunction();
+                    updateFunction(item);
                   }}
                   style={{ fontSize: 14 }}
                   className='regular pl-3 font-semibold hover:bg-appOrange hover:bg-opacity-70 hover:scale-105 duration-300 hover:cursor-pointer  hover:opacity-70 border-b py-2 mb-2 px-2 text-appBlue'

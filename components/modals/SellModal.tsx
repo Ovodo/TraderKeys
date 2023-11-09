@@ -4,50 +4,36 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Jacques_Francois } from "next/font/google";
 import { useEffect, useState } from "react";
 import { ScaleLoader } from "react-spinners";
-import { baseUrl } from "@/config";
 import axios from "axios";
-import { User } from "next-auth";
 import { motion } from "framer-motion";
-import { getPrivateKey, newUser } from "@/lib/actions";
-import SelectComponent from "../input/SelectComponent";
 import InputLine from "../input/InputLine";
-import { Ticket } from "@/lib/types";
+import { User } from "@/lib/types";
+import { getSellPrice, getSellPriceAfterFees, sellKeys } from "@/lib/contract";
 type Props = {
   author: string;
-  // validate: (item: string) => void;
+  keyAddress: string;
+  user: User;
 };
 const agba = Jacques_Francois({ weight: "400", subsets: ["latin"] });
 
-const NewTicketModal = ({ author }: Props) => {
+const SellModal = ({ author, keyAddress, user }: Props) => {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState("kklkl");
-  // const [category, setCategory] = useState([]);
   const [price, setPrice] = useState<number>(0.0);
-  const [categoryData, setCategoryData] = useState<any[]>([]);
-  const [priceData, setPriceData] = useState([]);
+  const [priceAfterFees, setPriceAfterFees] = useState<number>(0);
+  const [amount, setAmount] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const category = searchParams.get("category")?.toLowerCase() as string;
-  const asset = searchParams.get("asset") as string;
-  const getData = () => console.log(category);
-  const queryString = useSearchParams().toString();
 
   // ______________________-Functions________________________________________-
-  const createTicket = async () => {
-    console.log("Creating Ticket");
-
+  const Sell = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.post(`${baseUrl}/api/ticket/create`, {
-        author,
-        category,
-        asset,
-        open: price,
-      });
-      setMessage(res.data.message);
+      await sellKeys(user, keyAddress, amount);
+      setMessage(`${amount} ${author} sold successfully`);
+
       setIsLoading(false);
     } catch (error) {
       console.error("error", error);
@@ -60,55 +46,22 @@ const NewTicketModal = ({ author }: Props) => {
     }
   };
 
-  const ticketCategory = async () => {
-    console.log("setting category");
-
-    const options = {
-      method: "GET",
-      // url: `https://bloomberg-api.p.rapidapi.com/bloomberg/${category}`,
-      url: `https://api.binance.com/api/v3/exchangeInfo`,
-      // headers: {
-      //   "X-RapidAPI-Key": "58fc9fd74dmsh1504f4f7cbba02dp135d7djsn0d51e3009846",
-      //   "X-RapidAPI-Host": "bloomberg-api.p.rapidapi.com",
-      // },
-    };
-
-    try {
-      const response = await axios.request(options);
-      const dataObject = response.data;
-
-      // Convert the object to an array of objects
-      const dataArray = dataObject.symbols
-        .map((item: any) => item.symbol)
-        .filter((item: string) => item.includes("USDT"))
-        .sort((a: any, b: any) => {
-          // Compare the items alphabetically
-          return a.localeCompare(b);
-        });
-
-      setCategoryData(dataArray);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const getPrice = async (item: string | undefined) => {
-    console.log("setting price");
-
-    const options = {
-      method: "GET",
-      url: `https://api.binance.com/api/v3/ticker/price?symbol=${item}`,
-    };
-
-    try {
-      const response = await axios.request(options);
-      const price = response.data.price as number;
+  const setPrices = async () => {
+    if (amount !== 0 || keyAddress !== "") {
+      const price = await getSellPrice(keyAddress, amount);
+      const priceAfter = await getSellPriceAfterFees(keyAddress, amount);
       setPrice(price);
-    } catch (error) {
-      console.error(error);
+      setPriceAfterFees(priceAfter);
+    } else {
+      return;
     }
   };
 
   // ______________________-UseEffects________________________________________-
+
+  useEffect(() => {
+    setPrices();
+  }, [amount]);
 
   if (isLoading) {
     return (
@@ -147,7 +100,7 @@ const NewTicketModal = ({ author }: Props) => {
               onClick={() => router.refresh()}
               className={`${
                 error ? "bg-appOrange" : "bg-appGreen"
-              } absolute bottom-2  left-[50%] -translate-x-1/2  rounded-sm  px-5 py-2`}
+              } absolute bottom-2 hover:opacity-80 active:scale-90  left-[50%] -translate-x-1/2  rounded-sm  px-5 py-2`}
             >
               {error ? "  Cancel" : "Done"}
             </button>
@@ -170,42 +123,38 @@ const NewTicketModal = ({ author }: Props) => {
       >
         <div className='absolute bottom-5 space-x-16'>
           <Link href={pathname.split("?modal")[0]}>
-            <button className='bg-appOrange mx-auto rounded-sm  px-5 py-2'>
+            <button className='bg-appOrange hover:opacity-80 active:scale-90 mx-auto rounded-sm  px-5 py-2'>
               Cancel
             </button>
           </Link>
           <button
-            disabled={asset == undefined || category == undefined || price == 0}
-            onClick={createTicket}
-            className='bg-appGreen disabled:opacity-30 mx-auto rounded-sm  px-5 py-2'
+            disabled={amount == 0}
+            onClick={Sell}
+            className='bg-appGreen hover:opacity-80 active:scale-90 disabled:opacity-30 mx-auto rounded-sm  px-5 py-2'
           >
-            Create
+            Confirm
           </button>
         </div>
-        <h3 className='text-left'>Create a new ticket</h3>
+        <h3 className='text-left'>{`Sell ${amount} ${author}  keys`}</h3>
 
         <div className='flex justify-around mt-10 place-items-center w-[100%] px-10'>
-          <p className=''>Category</p>
-          <SelectComponent
-            path={`?modal=true&category=`}
-            updateFunction={ticketCategory}
-            items={["Crypto", "Metals", "Agriculture", "Energy", "Commodities"]}
-            placeholder='Ticket category'
+          <p className='w-[50%]'>Amount</p>
+          <input
+            onChange={(e) => setAmount(e.target.value as unknown as number)}
+            className='border w-[40%] outline-1'
+            type='number'
           />
         </div>
         <div className='flex justify-around mt-8 place-items-center w-[100%] px-10'>
-          <p className=''>Asset</p>
-          <SelectComponent
-            path={`?modal=true&category=${category}&asset=`}
-            updateFunction={getPrice}
-            items={category === "crypto" ? categoryData : ["NOT AVAILABLE"]}
-            placeholder='Choose asset'
-          />
-        </div>
-        <div className='flex justify-around mt-8 place-items-center w-[100%] px-10'>
-          <p className=''>Price</p>
-          <div>
+          <p className='w-[50%]'>Price</p>
+          <div className='w-[40%]'>
             <InputLine value={price} placeholder='Price' />
+          </div>
+        </div>
+        <div className='flex justify-around mt-8 place-items-center w-[100%] px-10'>
+          <p className='w-[50%]'>Price after fees</p>
+          <div className='w-[40%]'>
+            <InputLine value={priceAfterFees} placeholder='Price' />
           </div>
         </div>
       </motion.div>
@@ -213,4 +162,4 @@ const NewTicketModal = ({ author }: Props) => {
   );
 };
 
-export default NewTicketModal;
+export default SellModal;

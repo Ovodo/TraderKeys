@@ -3,7 +3,7 @@ import React from "react";
 type Props = {
   placeholder: string;
   styles?: string;
-  value: string | number | undefined;
+  value: number | string | undefined;
 };
 
 const InputLine = ({ placeholder, styles, value }: Props) => {

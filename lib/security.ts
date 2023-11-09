@@ -1,5 +1,6 @@
 "use server";
 
+import { baseUrl } from "@/config";
 import { scrypt, createCipheriv, createDecipheriv, scryptSync } from "crypto";
 
 const password = "YourSecretPassword"; // Replace with your secret passphrase
@@ -30,4 +31,18 @@ export const decrypt = async (encryptedData: string) => {
     console.error("Decryption error:", error);
     return null; // Handle decryption errors as needed
   }
+};
+
+export const closeTicket = async (item: string, id: string) => {
+  console.log("Fetching");
+
+  const res = await fetch(`${baseUrl}/api/ticket/close/${item}/${id}`);
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    console.log(res);
+
+    throw new Error("Failed to fetch data");
+  }
+  const data = res.json();
+  return data;
 };

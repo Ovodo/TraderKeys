@@ -3,6 +3,8 @@ import crypto from "crypto";
 import { User } from "next-auth";
 import { User as NewUser } from "./types";
 import { decrypt } from "./security";
+import axios from "axios";
+import { baseUrl } from "@/config";
 
 // Convert an arbitrary string to a key subject address using SHA-256 hash
 export function stringToKeySubjectAddress(inputString: string) {
@@ -33,7 +35,7 @@ export const newUser = async (user: User): Promise<NewUser> => {
     user.address
   );
   const key = wallet.toPrivateKeyObject().privateKeyHex;
-  const pub = wallet.toPrivateKeyObject().publicKeyHex;
+  const pub = wallet.toPrivateKeyObject().address;
   // console.log("_key", private_key);
   // console.log("_key2", key);
 
@@ -44,4 +46,23 @@ export const newUser = async (user: User): Promise<NewUser> => {
     publicKey: pub as string,
   };
   return newUserObject;
+};
+
+export const getPrices = async (item: string[]) => {
+  // console.log("setting price");
+  const encodedSymbols = encodeURIComponent(JSON.stringify(item));
+
+  const options = {
+    method: "GET",
+    url: `https://api.binance.com/api/v3/ticker/price?symbols=${encodedSymbols}`,
+  };
+
+  try {
+    const response = await axios.request(options);
+    const price = response.data;
+
+    return price;
+  } catch (error) {
+    console.error(error);
+  }
 };

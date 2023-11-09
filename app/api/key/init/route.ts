@@ -27,12 +27,18 @@ async function init(request: Request) {
       .collection("users")
       .findOne({ address: user.address });
     const existingKey = await db.collection("keys").findOne({ name: name });
-    console.log(existingKey);
-    console.log("key sub", keySubjectAddress);
-    // return;
+    if (existingKey) {
+      console.error({
+        message: "Key name has been taken try something else",
+      });
+      return Response.json(
+        {
+          message: "Key name has been taken try something else",
+        },
+        { status: 400 }
+      );
+    }
 
-    // check if key exist already and has been initialized, if not buy 1 key to initialize
-    // and store in the db
     const KeyHolders = await getKeyHolders(keySubjectAddress);
     if (KeyHolders.length !== 0) {
       console.error({

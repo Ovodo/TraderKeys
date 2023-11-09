@@ -1,7 +1,12 @@
 "use client";
 
 import { stringToKeySubjectAddress } from "@/lib/actions";
-import { getKeyBalance, getKeyHolders, getTradeHistory } from "@/lib/contract";
+import {
+  getBuyPrice,
+  getKeyBalance,
+  getKeyHolders,
+  getTradeHistory,
+} from "@/lib/contract";
 import { HexString } from "aptos";
 import Link from "next/link";
 
@@ -10,6 +15,16 @@ const AddButton = ({ path }: { path: string }) => {
   return (
     <Link href={path}>
       <button
+        onClick={async () => {
+          console.log("buying");
+
+          console.log(
+            await getBuyPrice(
+              "0xf6c10e728de02fac4cbb99c523ccf072602154f8091d82747a607015913bb4cc",
+              20
+            )
+          );
+        }}
         // onClick={async () =>
         //   console.log(
         //     await getKeyHolders(

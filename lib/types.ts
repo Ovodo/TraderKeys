@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export type UserInfo = {
   username: string;
   name: string;
@@ -10,13 +12,24 @@ export type User = UserInfo & {
   publicKey: string;
   privateKey: string;
 };
-export type Key = {
+export type PrivateKey = {
   name: string;
   address: string;
   amount?: number;
   owner: string;
-  value?: number;
+  supply?: number;
   pnl?: string;
+  price?: string;
+};
+export type Ticket = {
+  _id: ObjectId;
+  author: string;
+  category: string;
+  asset: string;
+  open: number | string;
+  close?: number | string;
+  pnl?: number | string;
+  closed: boolean;
 };
 
 export type ContractTradeEvent = {

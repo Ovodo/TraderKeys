@@ -36,6 +36,7 @@ const Accounts = ({ data }: { data: User[] }) => {
           <p className='text-lg text-slate-900 text-center'>PRICE</p>
         </div>
         {users.map((user, index) => {
+          const price = getBuyPrice(user.address, 1);
           return (
             <div className=' w-full border-double border- border-opacity-50 border-slate-900 grid grid-cols-[0.3fr,1.5fr,1.5fr,1fr]'>
               <p className={itemStyle}>{index + 1}</p>
@@ -45,7 +46,7 @@ const Accounts = ({ data }: { data: User[] }) => {
               <Link href={`/keys/${user.key?.slice(1, user.key.length)}`}>
                 <p className={`${itemStyle}`}>{user.key}</p>
               </Link>
-              <p className='text-lg text-slate-900 text-center'>{text}</p>
+              <p className='text-lg text-slate-900 text-center'>{price}</p>
             </div>
           );
         })}
