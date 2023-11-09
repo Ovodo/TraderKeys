@@ -7,7 +7,6 @@ import Copy from "@/components/utils/Copy";
 import BuyButton from "@/components/button/BuyButton";
 import SearchComponent from "@/components/input/SearchComponent";
 import { baseUrl } from "@/config";
-import { Key } from "@/lib/types";
 import { getBuyPrice } from "@/lib/contract";
 import Accounts from "@/components/Accounts";
 
