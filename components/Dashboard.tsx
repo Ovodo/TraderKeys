@@ -7,6 +7,7 @@ import Copy from "./utils/Copy";
 import Image from "next/image";
 import Link from "next/link";
 import { SwitchIcon } from "@radix-ui/react-icons";
+import { signOut } from "next-auth/react";
 
 const nav = ["Profile", "Accounts", "Tickets", "Trade History", "Security"];
 const Dashboard = ({ session }: { session: Session }) => {
@@ -20,6 +21,13 @@ const Dashboard = ({ session }: { session: Session }) => {
       <button onClick={() => setHide(!hide)} className='absolute top-2 right-1'>
         <SwitchIcon color='rgb(250 237 205)' />
       </button>
+      <p
+        onClick={() => signOut({ callbackUrl: "/" })}
+        className='text-appCream absolute bottom-5 cursor-pointer tracking-wide hover:text-appOrange'
+      >
+        Log out
+      </p>
+
       {!hide && (
         <>
           <section

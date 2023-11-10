@@ -67,7 +67,7 @@ export async function fundAccount(accountToFund: AptosAccount) {
   await faucetClient.fundAccount(accountToFund.address(), 5000_0000);
 }
 export async function initializeAccount(accountToFund: AptosAccount) {
-  await faucetClient.fundAccount(accountToFund.address(), 100000000, 1);
+  await faucetClient.fundAccount(accountToFund.address(), 5000_0000);
   console.log("funded2");
 }
 
