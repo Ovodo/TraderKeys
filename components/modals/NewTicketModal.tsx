@@ -55,7 +55,6 @@ const NewTicketModal = ({ author }: Props) => {
       setError(error.response.data.message);
 
       setIsLoading(false);
-      setIsLoading(false);
     }
   };
 

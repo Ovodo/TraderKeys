@@ -8,17 +8,19 @@ import React from "react";
 import Key from "@/public/key.svg";
 import useFonts from "@/hooks/useFonts";
 import { motion } from "framer-motion";
+import { ScaleLoader } from "react-spinners";
 
 const Loading = () => {
   const { Jim } = useFonts();
 
   return (
     <main className='flex min-h-screen overflow-hidden relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-center p-24'>
+      <ScaleLoader color='#264653' />
       <motion.h1
         initial={{ x: -1000 }}
-        animate={{ x: 1000 }}
+        animate={{ x: 0 }}
         transition={{
-          duration: 10,
+          duration: 5,
           type: "tween",
           repeat: 5,
           repeatType: "mirror",

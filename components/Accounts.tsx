@@ -43,9 +43,7 @@ const Accounts = ({ data }: { data: User[] }) => {
               className=' w-full border-double border- border-opacity-50 border-slate-900 grid grid-cols-[0.3fr,1.5fr,1.5fr,1fr]'
             >
               <p className={itemStyle}>{index + 1}</p>
-              <Link href={`/`}>
-                <p className={itemStyle}>{user.name ?? "__"}</p>
-              </Link>
+              <p className={itemStyle}>{user.name ?? "__"}</p>
               <Link href={`/keys/${user.key?.slice(1, user.key.length)}`}>
                 <p className={`${itemStyle}`}>{user.key}</p>
               </Link>

@@ -9,7 +9,14 @@ import Link from "next/link";
 import { SwitchIcon } from "@radix-ui/react-icons";
 import { signOut } from "next-auth/react";
 
-const nav = ["Profile", "Accounts", "Tickets", "Trade History", "Security"];
+const nav = [
+  "Feed",
+  "Profile",
+  "Accounts",
+  "Tickets",
+  "Trade History",
+  "Security",
+];
 const Dashboard = ({ session }: { session: Session }) => {
   const [hide, setHide] = useState(false);
   return (
@@ -54,7 +61,13 @@ const Dashboard = ({ session }: { session: Session }) => {
                 <Link
                   key={item}
                   className='text-appCream tracking-wide hover:text-appOrange'
-                  href={`/${item == "Profile" ? "" : item.toLowerCase()}`}
+                  href={`/${
+                    item == "Feed"
+                      ? "/"
+                      : item == "Trade History"
+                      ? "history"
+                      : item.toLowerCase()
+                  }`}
                 >
                   {item}
                 </Link>

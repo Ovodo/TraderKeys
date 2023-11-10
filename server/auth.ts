@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
           image: profile.data.profile_image_url ?? "",
           created_at: new Date(),
           privateKey: hash,
+          password: "",
         };
       },
     }),
@@ -50,6 +51,7 @@ export const authOptions: NextAuthOptions = {
           image: user.image,
           created_at: user.created_at,
           privateKey: user.privateKey,
+          password: user.password,
         },
       };
     },

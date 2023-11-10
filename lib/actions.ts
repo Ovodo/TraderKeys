@@ -1,4 +1,4 @@
-import { AptosAccount, HexString } from "aptos";
+import { AptosAccount, CoinClient, HexString } from "aptos";
 import crypto from "crypto";
 import { User } from "next-auth";
 import { User as NewUser } from "./types";

@@ -71,6 +71,18 @@ export async function initializeAccount(accountToFund: AptosAccount) {
   console.log("funded2");
 }
 
+export async function withdrawApt(
+  privateKey: string,
+  address: string,
+  amount_of_apt: number
+) {
+  const theUsersAccount = new AptosAccount(
+    new HexString(privateKey).toUint8Array()
+  );
+
+  await coinClient.transfer(theUsersAccount, address, amount_of_apt);
+}
+
 /* 
   Buys keys of a key subject.
   @param buyer - The user buying the keys. This contains the private key of the account.

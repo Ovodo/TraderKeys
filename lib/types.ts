@@ -21,6 +21,14 @@ export type PrivateKey = {
   pnl?: string;
   price?: string;
 };
+
+export type Article = {
+  url: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  createdAt: string;
+};
 export type Ticket = {
   _id: ObjectId;
   author: string;

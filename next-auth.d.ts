@@ -21,5 +21,6 @@ declare module "next-auth" {
     address: string;
     privateKey: string;
     created_at: Date;
+    password: string;
   }
 }
