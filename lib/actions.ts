@@ -5,6 +5,11 @@ import { User as NewUser } from "./types";
 import { decrypt } from "./security";
 import axios from "axios";
 import { baseUrl } from "@/config";
+// import { Spot } from "@binance/connector";
+
+// const apiKey = process.env.BINANCE_KEY;
+// const apiSecret = process.env.SIGNATURE;
+// const client = new Spot(apiKey, apiSecret);
 
 // Convert an arbitrary string to a key subject address using SHA-256 hash
 export function stringToKeySubjectAddress(inputString: string) {
@@ -49,12 +54,14 @@ export const newUser = async (user: User): Promise<NewUser> => {
 };
 
 export const getPrices = async (item: string[]) => {
-  // console.log("setting price");
   const encodedSymbols = encodeURIComponent(JSON.stringify(item));
 
   const options = {
     method: "GET",
-    url: `https://api.binance.com/api/v3/ticker/price?symbols=${encodedSymbols}`,
+    url: `https://data-api.binance.vision/api/v3/ticker/price?symbols=${encodedSymbols}`,
+    headers: {
+      "X-MBX-APIKEY": process.env.BINANCE_API,
+    },
   };
 
   try {

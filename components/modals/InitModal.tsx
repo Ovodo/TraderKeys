@@ -31,13 +31,10 @@ const InitModal = ({ user }: { user: User }) => {
       console.log("resP", res);
       setMessage(res.data.message);
       setIsLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error("error", error);
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError("An unknown error occurred");
-      }
+      setError(error.response.data.message);
+
       setIsLoading(false);
     }
   };

@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import Key from "@/public/key.svg";
 import { Session, getServerSession } from "next-auth";
-import { authOptions } from "@/server/auth";
+import { authOptions, getServerAuthSession } from "@/server/auth";
 import BuyButton from "@/components/button/BuyButton";
 import NewTicketModal from "@/components/modals/NewTicketModal";
 import { baseUrl } from "@/config";
@@ -47,7 +47,7 @@ const Page = async ({
   params: { name: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const session = (await getServerSession(authOptions)) as Session;
+  const session = (await getServerAuthSession()) as Session;
   const user = await newUser(session.user);
   const showModal = searchParams?.modal;
   const closeModal = searchParams?.id;

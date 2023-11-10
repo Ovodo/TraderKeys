@@ -10,7 +10,7 @@ async function create(request: Request) {
     const db = client.db("TraderKeys");
     const existingAsset = (await db
       .collection("ticket")
-      .findOne({ asset: body.asset })) as Ticket;
+      .findOne({ author: body.author, asset: body.asset })) as Ticket;
     if (existingAsset && !existingAsset.close) {
       return Response.json(
         { message: "Asset is already open for this key📜" },

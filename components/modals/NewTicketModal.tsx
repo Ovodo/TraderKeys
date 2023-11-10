@@ -12,6 +12,7 @@ import { getPrivateKey, newUser } from "@/lib/actions";
 import SelectComponent from "../input/SelectComponent";
 import InputLine from "../input/InputLine";
 import { Ticket } from "@/lib/types";
+import Error from "next/error";
 type Props = {
   author: string;
   // validate: (item: string) => void;
@@ -49,13 +50,11 @@ const NewTicketModal = ({ author }: Props) => {
       });
       setMessage(res.data.message);
       setIsLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error("error", error);
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError("An unknown error occurred");
-      }
+      setError(error.response.data.message);
+
+      setIsLoading(false);
       setIsLoading(false);
     }
   };
