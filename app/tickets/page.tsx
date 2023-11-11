@@ -5,7 +5,7 @@ import { baseUrl } from "@/config";
 import { Ticket } from "@/lib/types";
 import Link from "next/link";
 
-const getTickets = async (item: string) => {
+const getTickets = async () => {
   const res = await fetch(`${baseUrl}/api/ticket/get`);
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
@@ -21,7 +21,7 @@ const itemStyle =
 
 const Page = async ({ params }: { params: { name: string } }) => {
   const session = (await getServerAuthSession()) as Session;
-  const [tickets]: [Ticket[]] = await Promise.all([getTickets(params.name)]);
+  const [tickets]: [Ticket[]] = await Promise.all([getTickets()]);
 
   return (
     <main className='flex min-h-screen  relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-start px-10 py-5'>

@@ -1,8 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Jacques_Francois } from "next/font/google";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ScaleLoader } from "react-spinners";
 import { baseUrl } from "@/config";
 import axios from "axios";
@@ -27,6 +26,11 @@ const NewTicketModal = ({ author }: Props) => {
   const { agba } = useFonts();
 
   // ______________________-Functions________________________________________-
+
+  const categoryItems = useMemo(
+    () => ["Crypto", "Metals", "Agriculture", "Energy", "Commodities"],
+    []
+  );
   const createTicket = async () => {
     try {
       setIsLoading(true);
@@ -46,7 +50,7 @@ const NewTicketModal = ({ author }: Props) => {
     }
   };
 
-  const ticketCategory = async () => {
+  const ticketCategory = useCallback(async () => {
     const options = {
       method: "GET",
       url: `https://api.binance.com/api/v3/exchangeInfo`,
@@ -69,10 +73,8 @@ const NewTicketModal = ({ author }: Props) => {
     } catch (error) {
       console.error(error);
     }
-  };
-  const getPrice = async (item: string | undefined) => {
-    console.log("setting price");
-
+  }, []);
+  const getPrice = useCallback(async (item: string | undefined) => {
     const options = {
       method: "GET",
       url: `https://api.binance.com/api/v3/ticker/price?symbol=${item}`,
@@ -85,7 +87,7 @@ const NewTicketModal = ({ author }: Props) => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
   // Logic to display loading, error and success messages when the user confirms the transaction or action
 
@@ -170,7 +172,7 @@ const NewTicketModal = ({ author }: Props) => {
           <SelectComponent
             path={`?modal=true&category=`}
             updateFunction={ticketCategory}
-            items={["Crypto", "Metals", "Agriculture", "Energy", "Commodities"]}
+            items={categoryItems}
             placeholder='Ticket category'
           />
         </div>

@@ -18,9 +18,6 @@ const getPassword = async (item: string) => {
   return data;
 };
 
-const itemStyle =
-  "text-lg text-slate-900 flex items-center justify-center text-center border-r border-black";
-
 const Page = async () => {
   const session = (await getServerAuthSession()) as Session;
   const password = await getPassword(session.user.address);
