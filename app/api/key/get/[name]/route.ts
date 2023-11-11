@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { getBuyPrice, getKeySupply } from "@/lib/contract";
 import clientPromise from "@/lib/mongodb";
-import { PrivateKey, Ticket } from "@/lib/types";
+import { PrivateKey } from "@/lib/types";
 
 async function init(
   request: Request,

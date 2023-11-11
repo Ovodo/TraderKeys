@@ -1,28 +1,24 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Jacques_Francois } from "next/font/google";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ScaleLoader } from "react-spinners";
-import { baseUrl } from "@/config";
-import axios from "axios";
 import { User } from "next-auth";
 import { motion } from "framer-motion";
-import { getPrivateKey, newUser } from "@/lib/actions";
+import { newUser } from "@/lib/actions";
 import { withdrawApt } from "@/lib/contract";
-
-const agba = Jacques_Francois({ weight: "400", subsets: ["latin"] });
+import useFonts from "@/hooks/useFonts";
 
 const WithdrawModals = ({ user, balance }: { user: User; balance: number }) => {
-  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
   const [address, setAddress] = useState(String);
   const [amount, setAmount] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
+  const { agba } = useFonts();
+
   const withdraw = async () => {
-    // console.log("2", newUser(user).privateKey);
     try {
       const privateKey = (await newUser(user)).privateKey;
       const aptAmount = amount * 1_0000_0000;
@@ -41,10 +37,7 @@ const WithdrawModals = ({ user, balance }: { user: User; balance: number }) => {
       setIsLoading(false);
     }
   };
-
-  if (pathname !== "/") {
-    return null;
-  }
+  // Logic to display loading, error and success messages when the user confirms the transaction or action
   if (isLoading) {
     return (
       <div
@@ -77,8 +70,11 @@ const WithdrawModals = ({ user, balance }: { user: User; balance: number }) => {
           <p className={`${error ? "text-red-600" : "text-green-600"}`}>
             {error || message}
           </p>
-          <Link href={"/"}>
+          <Link href={"/profile"}>
             <button
+              onClick={() => {
+                router.refresh();
+              }}
               className={`${
                 error ? "bg-appOrange" : "bg-appGreen"
               } absolute bottom-2  left-[50%] -translate-x-1/2  rounded-sm  px-5 py-2`}
@@ -90,6 +86,8 @@ const WithdrawModals = ({ user, balance }: { user: User; balance: number }) => {
       </div>
     );
   }
+
+  // Main render Modal
 
   return (
     <div

@@ -1,14 +1,12 @@
 // "use client";
 
 import Copy from "@/components/utils/Copy";
-import { authOptions, getServerAuthSession } from "@/server/auth";
-import { Session, getServerSession } from "next-auth";
-import { signOut } from "next-auth/react";
+import { getServerAuthSession } from "@/server/auth";
+import { Session } from "next-auth";
 import Image from "next/image";
 import Key from "@/public/key.svg";
 import AddButton from "@/components/button/AddButton";
 import InitModal from "@/components/modals/InitModal";
-import { usePathname } from "next/navigation";
 import {
   getAptosBalance,
   getBuyPrice,
@@ -17,11 +15,9 @@ import {
   getProtocolFeePercentage,
   getSubjectFeePercentage,
 } from "@/lib/contract";
-import { newUser, stringToKeySubjectAddress } from "@/lib/actions";
-import { AptosAccount } from "aptos";
+import { newUser } from "@/lib/actions";
 import { baseUrl } from "@/config";
 import { PrivateKey } from "@/lib/types";
-import useFonts from "@/hooks/useFonts";
 import Link from "next/link";
 import SellModal from "@/components/modals/SellModal";
 import BuyButton from "@/components/button/BuyButton";
@@ -61,7 +57,6 @@ export default async function Home({ searchParams }: Props) {
     (key: PrivateKey) => key.address === session.user.address
   );
 
-  console.log("owned collections", ownedCollections);
   const itemStyle =
     "text-lg text-slate-900 flex items-center justify-center border-r border-black";
 
@@ -69,25 +64,28 @@ export default async function Home({ searchParams }: Props) {
     <main className='flex min-h-screen relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-between p-24'>
       <section id='TOP' className='flex justify-start w-full'>
         <div className='flex flex-col absolute top-5 left-10  items-center'>
-          <div className='flex space-x-12  items-center'>
-            <h4 className='text-5xl text-appBlue font-semibold'>
-              {init_Key ? init_Key.name : "Initialize"}
-            </h4>
-            <Link
-              href={`/keys/${init_Key?.name.slice(1, init_Key.name.length)}`}
-            >
-              <Image
-                width={30}
-                height={30}
-                className='rotate-90 cursor-pointer'
-                src={Key}
-                alt='keys'
-              />
-            </Link>
-            <h4 className='text-5xl text-appBlue font-semibold'>
-              {keyBalance}
-            </h4>
-          </div>
+          <Link href={`/keys/${init_Key?.name.slice(1, init_Key.name.length)}`}>
+            <div className='flex space-x-12  items-center'>
+              <h4 className='text-5xl text-appBlue font-semibold'>
+                {init_Key ? init_Key.name : "Initialize"}
+              </h4>
+              <Link
+                href={`/keys/${init_Key?.name.slice(1, init_Key.name.length)}`}
+              >
+                <Image
+                  width={30}
+                  height={30}
+                  className='rotate-90 cursor-pointer'
+                  src={Key}
+                  alt='keys'
+                />
+              </Link>
+              <h4 className='text-5xl text-appBlue font-semibold'>
+                {keyBalance}
+              </h4>
+            </div>
+          </Link>
+
           {!init_Key && <AddButton path='/?modal=true' />}
         </div>
         <div className='text-appBlue absolute space-y-4 top-5 right-10 borde flex flex-col items-center justify-around text-lg'>
@@ -100,7 +98,7 @@ export default async function Home({ searchParams }: Props) {
           <p className='text-3xl'> {`${bal} APT`}</p>
           <BuyButton text='Withdraw' path='?withdraw=true' />
         </div>
-        {/* {showModal && <InitModal user={session.user} />} */}
+        {showModal && <InitModal user={session.user} />}
         {withdraw && <WithdrawModals balance={bal} user={session.user} />}
         {sellModal && (
           <SellModal
@@ -153,24 +151,6 @@ export default async function Home({ searchParams }: Props) {
           );
         })}
       </div>
-      {/* <div className='absolute right-5 top-48 overflow-scroll scrollbar-hide h-[58vh] bg-appCream w-[45%]  border-2 border-appOrange border-opacity-10'>
-        <h4 className='text-3xl cursor-pointer w-full text-center text-appBlue font-semibold'>
-          Recent Tickets
-        </h4>
-        <div className=' w-full border-double border-y border-opacity-50 border-slate-900 grid grid-cols-[.5fr,3.5fr,2fr,1fr]'>
-          <p className='text-lg text-slate-900 text-center border-r border-black'>
-            SN
-          </p>
-          <p className='text-lg text-slate-900 text-center border-r border-black'>
-            ID
-          </p>
-          <p className='text-lg text-slate-900 text-center border-r border-black'>
-            PAIR
-          </p>
-          <p className='text-lg text-slate-900 text-center'>PNL</p>
-        </div>
-      </div> */}
-
       <div className='absolute text-appBlue text-2xl w-[50vw] flex px-5 justify-around self-center bottom-3'>
         <p>{`Protocol Fee:${protocolFees}%`}</p>
         <p>{`Subject Fee:${subjectFees}%`}</p>

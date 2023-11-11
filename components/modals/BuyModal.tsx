@@ -1,20 +1,18 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Jacques_Francois } from "next/font/google";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ScaleLoader } from "react-spinners";
-import axios from "axios";
 import { motion } from "framer-motion";
 import InputLine from "../input/InputLine";
 import { User } from "@/lib/types";
 import { buyKeys, getBuyPrice, getBuyPriceAfterFees } from "@/lib/contract";
+import useFonts from "@/hooks/useFonts";
 type Props = {
   author: string;
   keyAddress: string;
   user: User;
 };
-const agba = Jacques_Francois({ weight: "400", subsets: ["latin"] });
 
 const BuyModal = ({ author, keyAddress, user }: Props) => {
   const pathname = usePathname();
@@ -25,7 +23,7 @@ const BuyModal = ({ author, keyAddress, user }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const { agba } = useFonts();
 
   // ______________________-Functions________________________________________-
   const purchaseKeys = async () => {
@@ -49,6 +47,7 @@ const BuyModal = ({ author, keyAddress, user }: Props) => {
   // ______________________-UseEffects________________________________________-
 
   useEffect(() => {
+    // function to set Prices before and after fees as soon as the user enters amount
     const setPrices = async () => {
       const price = await getBuyPrice(keyAddress, amount);
       const priceAfter = await getBuyPriceAfterFees(keyAddress, amount);
@@ -57,6 +56,8 @@ const BuyModal = ({ author, keyAddress, user }: Props) => {
     };
     setPrices();
   }, [amount, keyAddress]);
+
+  // Logic to display loading, error and success messages when the user confirms the transaction or action
 
   if (isLoading) {
     return (
@@ -104,7 +105,7 @@ const BuyModal = ({ author, keyAddress, user }: Props) => {
       </div>
     );
   }
-
+  // Render Main Modal
   return (
     <div
       className={`absolute ${agba.className}  top-0 flex items-center justify-center left-0 w-full h-full`}

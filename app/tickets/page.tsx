@@ -59,7 +59,7 @@ const Page = async ({
           <p className={itemStyle}>OPEN </p>
           <p className={itemStyle}>CLOSE</p>
           <p className={itemStyle}>PNL</p>
-          <p className='text-lg text-slate-900 text-center'></p>
+          <p className='text-lg text-slate-900 text-center'>STATUS</p>
         </div>
         {tickets.map((ticket, index) => {
           const pnl = Math.round(ticket.pnl as number);

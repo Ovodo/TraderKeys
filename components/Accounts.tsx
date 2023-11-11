@@ -1,21 +1,19 @@
 "use client";
 import { getBuyPrice } from "@/lib/contract";
 import { User } from "next-auth";
-import React, { memo, useState } from "react";
+import React from "react";
 import SearchComponent from "./input/SearchComponent";
 import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
 const itemStyle = "text-lg text-slate-900 text-center border-r border-black";
 
 const Accounts = ({ data }: { data: User[] }) => {
-  // let users: User[] = JSON.parse(data);
   const { text } = useAppSelector((state) => state.Search);
   const users = data.filter(
     (item) =>
       (item.key as string).toLowerCase().includes(text.toLowerCase()) ||
       item.name.toLowerCase().includes(text.toLowerCase())
   );
-  console.log(users);
 
   return (
     <main className='flex min-h-screen relative bg-gradient-to-t from-appRed to-appYellow flex-col items-center justify-start p-10'>
@@ -51,17 +49,13 @@ const Accounts = ({ data }: { data: User[] }) => {
             </div>
           );
         })}
-
-        {/* <div className=' w-full border-double border- border-opacity-50 border-slate-900 grid grid-cols-[0.3fr,1.5fr,1.5fr,1fr,1fr]'>
-          <p className={itemStyle}>02</p>
-          <p className={itemStyle}>Ovdizzle</p>
-          <p className={itemStyle}>@soft</p>
-          <p className={itemStyle}>5</p>
-          <p className='text-lg text-green-700 text-center'>+50%</p>
-        </div> */}
       </section>
     </main>
   );
 };
 
-export default memo(Accounts);
+export default Accounts;
+
+//Component to display accounts with search component to capture the input of the users query
+// the useSelector and UseDispatch hooks from redux are used to store and read the users input
+// and this value is used to filter the users array before displaying

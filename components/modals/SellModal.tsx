@@ -1,20 +1,18 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Jacques_Francois } from "next/font/google";
 import { useEffect, useState } from "react";
 import { ScaleLoader } from "react-spinners";
-import axios from "axios";
 import { motion } from "framer-motion";
 import InputLine from "../input/InputLine";
 import { User } from "@/lib/types";
 import { getSellPrice, getSellPriceAfterFees, sellKeys } from "@/lib/contract";
+import useFonts from "@/hooks/useFonts";
 type Props = {
   author: string;
   keyAddress: string;
   user: User;
 };
-const agba = Jacques_Francois({ weight: "400", subsets: ["latin"] });
 
 const SellModal = ({ author, keyAddress, user }: Props) => {
   const pathname = usePathname();
@@ -25,7 +23,7 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const { agba } = useFonts();
 
   // ______________________-Functions________________________________________-
   const Sell = async () => {
@@ -49,6 +47,7 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
   // ______________________-UseEffects________________________________________-
 
   useEffect(() => {
+    // function to set Prices before and after fees as soon as the user enters amount
     const setPrices = async () => {
       if (amount !== 0 || keyAddress !== "") {
         const price = await getSellPrice(keyAddress, amount);
@@ -61,6 +60,8 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
     };
     setPrices();
   }, [amount, keyAddress]);
+
+  // Logic to display loading, error and success messages when the user confirms the transaction or action
 
   if (isLoading) {
     return (
@@ -108,6 +109,8 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
       </div>
     );
   }
+
+  //Render Main Modal
 
   return (
     <div

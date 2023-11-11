@@ -2,17 +2,13 @@
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Jacques_Francois } from "next/font/google";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ScaleLoader } from "react-spinners";
 import { baseUrl } from "@/config";
 import axios from "axios";
-import { User } from "next-auth";
 import { motion } from "framer-motion";
-import { getPrivateKey, newUser } from "@/lib/actions";
 import SelectComponent from "../input/SelectComponent";
 import InputLine from "../input/InputLine";
-import { Ticket } from "@/lib/types";
-import Error from "next/error";
 type Props = {
   author: string;
   // validate: (item: string) => void;
@@ -106,7 +102,7 @@ const NewTicketModal = ({ author }: Props) => {
     }
   };
 
-  // ______________________-UseEffects________________________________________-
+  // Logic to display loading, error and success messages when the user confirms the transaction or action
 
   if (isLoading) {
     return (
@@ -154,6 +150,8 @@ const NewTicketModal = ({ author }: Props) => {
       </div>
     );
   }
+
+  // Render Main Modal
 
   return (
     <div

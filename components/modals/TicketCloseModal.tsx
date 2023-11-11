@@ -1,49 +1,21 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Jacques_Francois } from "next/font/google";
 import { useState } from "react";
 import { ScaleLoader } from "react-spinners";
 import { baseUrl } from "@/config";
-import axios from "axios";
-import { User } from "next-auth";
 import { motion } from "framer-motion";
-import { getPrivateKey, newUser } from "@/lib/actions";
-import { ObjectId } from "mongodb";
+import useFonts from "@/hooks/useFonts";
 
-const agba = Jacques_Francois({ weight: "400", subsets: ["latin"] });
 type Props = {
   author: string;
   id: string;
 };
 
 const TicketCloseModal = ({ author, id }: Props) => {
-  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState(String);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const router = useRouter();
-  const initialize = async () => {
-    // console.log("2", newUser(user).privateKey);
-    try {
-      setIsLoading(true);
-      const res = await axios.post(`${baseUrl}/api/key/init`, {
-        name,
-      });
-      console.log("resP", res);
-      setMessage(res.data.message);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("error", error);
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError("An unknown error occurred");
-      }
-      setIsLoading(false);
-    }
-  };
+  const { agba } = useFonts();
 
   const closeTicket = async (item: string, id: string) => {
     setIsLoading(true);
@@ -63,9 +35,8 @@ const TicketCloseModal = ({ author, id }: Props) => {
     setIsLoading(false);
   };
 
-  //   if (pathname !== "/") {
-  //     return null;
-  //   }
+  // Logic to display loading, error and success messages when the user confirms the transaction or action
+
   if (isLoading) {
     return (
       <div
@@ -112,6 +83,8 @@ const TicketCloseModal = ({ author, id }: Props) => {
     );
   }
 
+  // Render Main Modal
+
   return (
     <div
       className={`absolute ${agba.className} top-0 flex items-center justify-center left-0 w-full h-full`}
@@ -132,10 +105,7 @@ const TicketCloseModal = ({ author, id }: Props) => {
             </button>
           </Link>
           <button
-            // disabled={name.length < 4}
             onClick={() => {
-              console.log(author);
-
               closeTicket(author, id);
             }}
             className='bg-appGreen active:scale-95 disabled:opacity-30 mx-auto rounded-sm  px-5 py-2'

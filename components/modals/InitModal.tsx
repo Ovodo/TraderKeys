@@ -1,34 +1,27 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Jacques_Francois } from "next/font/google";
 import { useState } from "react";
 import { ScaleLoader } from "react-spinners";
 import { baseUrl } from "@/config";
 import axios from "axios";
 import { User } from "next-auth";
 import { motion } from "framer-motion";
-import { getPrivateKey, newUser } from "@/lib/actions";
-
-const agba = Jacques_Francois({ weight: "400", subsets: ["latin"] });
+import useFonts from "@/hooks/useFonts";
 
 const InitModal = ({ user }: { user: User }) => {
-  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState(String);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const router = useRouter();
+  const { agba } = useFonts();
+
   const initialize = async () => {
-    // console.log("2", newUser(user).privateKey);
     try {
       setIsLoading(true);
-      console.log("ADd", name);
       const res = await axios.post(`${baseUrl}/api/key/init`, {
         name,
         user,
       });
-      console.log("resP", res);
       setMessage(res.data.message);
       setIsLoading(false);
     } catch (error: any) {
@@ -39,9 +32,8 @@ const InitModal = ({ user }: { user: User }) => {
     }
   };
 
-  if (pathname !== "/") {
-    return null;
-  }
+  // Logic to display loading, error and success messages when the user confirms the transaction or action
+
   if (isLoading) {
     return (
       <div
@@ -87,6 +79,8 @@ const InitModal = ({ user }: { user: User }) => {
       </div>
     );
   }
+
+  // Render Main Modal
 
   return (
     <div

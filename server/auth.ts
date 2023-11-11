@@ -1,16 +1,10 @@
-import { AptosAccount, HexString } from "aptos";
+import { AptosAccount } from "aptos";
 import { NextAuthOptions, getServerSession } from "next-auth";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
 
 import TwitterProvider, { TwitterProfile } from "next-auth/providers/twitter";
-import {
-  fundAccount,
-  getAccountt,
-  getAptosBalance,
-  initializeAccount,
-} from "@/lib/contract";
-import { hashPrivateKey } from "@/lib/actions";
+import { initializeAccount } from "@/lib/contract";
 import { encrypt } from "@/lib/security";
 
 export const authOptions: NextAuthOptions = {

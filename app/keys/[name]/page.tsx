@@ -66,8 +66,12 @@ const Page = async ({
   return (
     <main className='flex min-h-screen  relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-start px-10 py-5'>
       <div className='flex  flex-col justify-center space-x-5 absolute bottom-5 right-10  items-center'>
-        <h4 className='text-3xl text-appBlue font-semibold'>New Ticket</h4>
-        <AddButton path='?modal=true' />
+        {user.publicKey === singleKey.address && (
+          <>
+            <h4 className='text-3xl text-appBlue font-semibold'>New Ticket</h4>
+            <AddButton path='?modal=true' />)
+          </>
+        )}
       </div>
       <h4 className='text-2xl absolute bottom-3 left-2 text-appBlue font-semibold'>
         {`${session.user.name}`}

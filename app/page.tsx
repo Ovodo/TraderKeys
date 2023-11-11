@@ -1,7 +1,4 @@
 import React from "react";
-import { Session } from "next-auth";
-import { getServerAuthSession } from "@/server/auth";
-import { getTradeHistory } from "@/lib/contract";
 import ArticleItem from "@/components/ArticleItem";
 import { Article } from "@/lib/types";
 
@@ -28,17 +25,15 @@ const fetchNews = async () => {
 
     const data = await res.json();
     const data2 = await res2.json();
-    return (data.data as Article[]).concat(data2.data);
+    console.log("data", data);
+    console.log("data2", data2);
+    return (data.data as Article[])?.concat(data2.data);
   } catch (error) {
     console.error(error);
   }
 };
 
-const itemStyle =
-  "text-lg text-slate-900 flex items-center justify-center text-center border-r border-black";
-
 const Page = async () => {
-  const session = (await getServerAuthSession()) as Session;
   const feed: Article[] = (await fetchNews()) as Article[];
   console.log("feed", feed);
 
@@ -54,7 +49,7 @@ const Page = async () => {
       </section>
 
       {feed
-        .filter((article) => article.description.length > 10)
+        .filter((article) => article?.description?.length > 10)
         .map((article, index) => {
           return <ArticleItem key={index.toString()} article={article} />;
         })}
