@@ -1,11 +1,6 @@
 "use client";
 import AddButton from "@/components/button/AddButton";
-import InitModal from "@/components/modals/InitModal";
-import Copy from "@/components/utils/Copy";
-import { ActivityLogIcon } from "@radix-ui/react-icons";
-import Image from "next/image";
 import React from "react";
-import Key from "@/public/key.svg";
 import useFonts from "@/hooks/useFonts";
 import { motion } from "framer-motion";
 import { ScaleLoader } from "react-spinners";

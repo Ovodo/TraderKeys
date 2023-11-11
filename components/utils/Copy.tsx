@@ -1,7 +1,5 @@
 "use client";
 
-import { getAccountt, getAptosBalance } from "@/lib/contract";
-
 const Copy = ({ content }: { content: string }) => {
   return (
     <svg
@@ -11,9 +9,7 @@ const Copy = ({ content }: { content: string }) => {
       viewBox='0 0 24 24'
       stroke='white'
       strokeWidth={2}
-      //   onClick={() => navigator.clipboard.writeText(content)}
-      onClick={async () => console.log(await getAccountt(content))}
-      // onClick={() => console.log(content)}
+      onClick={() => navigator.clipboard.writeText(content)}
     >
       <path
         strokeLinecap='round'

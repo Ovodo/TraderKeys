@@ -6,7 +6,6 @@ import { ArrowDownIcon } from "@radix-ui/react-icons";
 import InputLine from "./InputLine";
 import useFonts from "@/hooks/useFonts";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
 
 type Props = {
   placeholder: string;
@@ -20,8 +19,6 @@ const SelectComponent = ({
   updateFunction,
   path,
 }: Props) => {
-  const queryString = useSearchParams().toString();
-
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(String);
   const { julius } = useFonts();
@@ -41,21 +38,7 @@ const SelectComponent = ({
             className='w-full max-h-[550px] z-10 absolute border scrollbar-hide bg-appCream overflow-y-scroll'
           >
             {items?.map((item: any) => (
-              <Link
-                key={item}
-                href={`${path}${item}`}
-                // href={
-                //   queryString === "modal=true"
-                //     ? `?modal=true&category=${item}`
-                //     : queryString.includes("modal=true&category")
-                //     ? `?${
-                //         queryString.includes("&asset")
-                //           ? queryString.split("&asset")[0]
-                //           : queryString
-                //       }&asset=${item}`
-                //     : `?${queryString}`
-                // }
-              >
+              <Link key={item} href={`${path}${item}`}>
                 <p
                   onClick={() => {
                     setValue(item);

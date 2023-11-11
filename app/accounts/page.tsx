@@ -1,13 +1,6 @@
-import AddButton from "@/components/button/AddButton";
-import Image from "next/image";
 import React from "react";
-import { Session, User, getServerSession } from "next-auth";
-import { authOptions } from "@/server/auth";
-import Copy from "@/components/utils/Copy";
-import BuyButton from "@/components/button/BuyButton";
-import SearchComponent from "@/components/input/SearchComponent";
+import { User } from "next-auth";
 import { baseUrl } from "@/config";
-import { getBuyPrice } from "@/lib/contract";
 import Accounts from "@/components/Accounts";
 
 const getUsers = async () => {
@@ -21,7 +14,6 @@ const getUsers = async () => {
 };
 
 const Page = async () => {
-  const session = (await getServerSession(authOptions)) as Session;
   const users: User[] = await getUsers();
 
   return <Accounts data={users} />;

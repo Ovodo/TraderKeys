@@ -2,13 +2,12 @@ import AddButton from "@/components/button/AddButton";
 import Image from "next/image";
 import React from "react";
 import Key from "@/public/key.svg";
-import { Session, getServerSession } from "next-auth";
-import { authOptions, getServerAuthSession } from "@/server/auth";
+import { Session } from "next-auth";
+import { getServerAuthSession } from "@/server/auth";
 import BuyButton from "@/components/button/BuyButton";
 import NewTicketModal from "@/components/modals/NewTicketModal";
 import { baseUrl } from "@/config";
 import { PrivateKey, Ticket } from "@/lib/types";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import TicketCloseModal from "@/components/modals/TicketCloseModal";
 import BuyModal from "@/components/modals/BuyModal";
@@ -52,8 +51,6 @@ const Page = async ({
   const showModal = searchParams?.modal;
   const closeModal = searchParams?.id;
   const buyModal = searchParams?.buy;
-  // const tickets: Ticket[] = await getTickets(params.name);
-  // const singleKey = (await getKey(params.name)) as PrivateKey;
   const [tickets, singleKey]: [Ticket[], PrivateKey] = await Promise.all([
     getTickets(params.name),
     getKey(params.name),

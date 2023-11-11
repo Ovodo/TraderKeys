@@ -1,9 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { newUser } from "@/lib/actions";
 import clientPromise from "@/lib/mongodb";
-import { decrypt, encrypt } from "@/lib/security";
-import { Key } from "@/model/user";
-import { AptosAccount, HexString } from "aptos";
+import { decrypt } from "@/lib/security";
 import { User } from "next-auth";
 
 async function init(

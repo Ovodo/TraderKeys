@@ -1,18 +1,9 @@
-import AddButton from "@/components/button/AddButton";
-import Image from "next/image";
 import React from "react";
-import Key from "@/public/key.svg";
-import { Session, getServerSession } from "next-auth";
-import { authOptions, getServerAuthSession } from "@/server/auth";
-import BuyButton from "@/components/button/BuyButton";
-import NewTicketModal from "@/components/modals/NewTicketModal";
+import { Session } from "next-auth";
+import { getServerAuthSession } from "@/server/auth";
 import { baseUrl } from "@/config";
-import { PrivateKey, Ticket } from "@/lib/types";
-import { revalidatePath } from "next/cache";
+import { Ticket } from "@/lib/types";
 import Link from "next/link";
-import TicketCloseModal from "@/components/modals/TicketCloseModal";
-import BuyModal from "@/components/modals/BuyModal";
-import { newUser } from "@/lib/actions";
 
 const getTickets = async (item: string) => {
   const res = await fetch(`${baseUrl}/api/ticket/get`);
@@ -28,20 +19,9 @@ const getTickets = async (item: string) => {
 const itemStyle =
   "text-lg text-slate-900 flex items-center justify-center text-center border-r border-black";
 
-const Page = async ({
-  params,
-  searchParams,
-}: {
-  params: { name: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+const Page = async ({ params }: { params: { name: string } }) => {
   const session = (await getServerAuthSession()) as Session;
-  const user = await newUser(session.user);
   const [tickets]: [Ticket[]] = await Promise.all([getTickets(params.name)]);
-  const pnl = tickets.reduce(
-    (total, ticket) => total + (ticket.pnl as number),
-    0
-  );
 
   return (
     <main className='flex min-h-screen  relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-start px-10 py-5'>

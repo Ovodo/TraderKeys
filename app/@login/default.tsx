@@ -1,7 +1,5 @@
 "use client";
 
-import { TwitterLogoIcon } from "@radix-ui/react-icons";
-import { signIn } from "next-auth/react";
 import React from "react";
 
 export default function Login() {

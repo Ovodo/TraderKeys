@@ -1,9 +1,7 @@
 "use client";
 
-import { User } from "@/lib/types";
 import { Session } from "next-auth";
 import React, { useState } from "react";
-import Copy from "./utils/Copy";
 import Image from "next/image";
 import Link from "next/link";
 import { SwitchIcon } from "@radix-ui/react-icons";

@@ -9,33 +9,25 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import SelectComponent from "../input/SelectComponent";
 import InputLine from "../input/InputLine";
+import useFonts from "@/hooks/useFonts";
 type Props = {
   author: string;
-  // validate: (item: string) => void;
 };
-const agba = Jacques_Francois({ weight: "400", subsets: ["latin"] });
-
 const NewTicketModal = ({ author }: Props) => {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState("kklkl");
-  // const [category, setCategory] = useState([]);
   const [price, setPrice] = useState<number>(0.0);
   const [categoryData, setCategoryData] = useState<any[]>([]);
-  const [priceData, setPriceData] = useState([]);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category")?.toLowerCase() as string;
   const asset = searchParams.get("asset") as string;
-  const getData = () => console.log(category);
-  const queryString = useSearchParams().toString();
+  const { agba } = useFonts();
 
   // ______________________-Functions________________________________________-
   const createTicket = async () => {
-    console.log("Creating Ticket");
-
     try {
       setIsLoading(true);
       const res = await axios.post(`${baseUrl}/api/ticket/create`, {
@@ -55,16 +47,9 @@ const NewTicketModal = ({ author }: Props) => {
   };
 
   const ticketCategory = async () => {
-    console.log("setting category");
-
     const options = {
       method: "GET",
-      // url: `https://bloomberg-api.p.rapidapi.com/bloomberg/${category}`,
       url: `https://api.binance.com/api/v3/exchangeInfo`,
-      // headers: {
-      //   "X-RapidAPI-Key": "58fc9fd74dmsh1504f4f7cbba02dp135d7djsn0d51e3009846",
-      //   "X-RapidAPI-Host": "bloomberg-api.p.rapidapi.com",
-      // },
     };
 
     try {

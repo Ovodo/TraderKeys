@@ -1,17 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import InputLine from "./input/InputLine";
-import BuyButton from "./button/BuyButton";
 import axios from "axios";
 import { baseUrl } from "@/config";
 import { User } from "next-auth";
-import { decrypt } from "@/lib/security";
 import { ScaleLoader } from "react-spinners";
 import { motion } from "framer-motion";
 import { Jacques_Francois } from "next/font/google";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 type Props = {
   user: User;
@@ -29,7 +26,6 @@ const Security = ({ user, secret, privateKey }: Props) => {
   const [password2, setPassword2] = useState("");
   const [show, setShow] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
 
   const sendPassword = async () => {
     setIsLoading(true);

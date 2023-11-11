@@ -2,7 +2,6 @@
 import { newUser } from "@/lib/actions";
 import { buyKeys, getKeyHolders } from "@/lib/contract";
 import clientPromise from "@/lib/mongodb";
-import type { NextApiRequest, NextApiResponse } from "next";
 import { Key } from "@/model/user";
 import { AptosAccount, HexString } from "aptos";
 import { User } from "next-auth";
@@ -23,9 +22,6 @@ async function init(request: Request) {
   try {
     const client = await clientPromise;
     const db = client.db("TraderKeys");
-    const initUser = await db
-      .collection("users")
-      .findOne({ address: user.address });
     const existingKey = await db.collection("keys").findOne({ name: name });
     if (existingKey) {
       console.error({

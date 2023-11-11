@@ -34,17 +34,6 @@ const TRANSACTION_OPTIONS = {
   gas_unit_price: "100",
 };
 
-export async function getAccountt(address: string) {
-  try {
-    const account = await provider.getAccount(address);
-    console.log("result", account);
-    return;
-  } catch (e) {
-    console.log("error", e);
-    return 0;
-  }
-}
-
 export async function getAptosBalance(address: string) {
   try {
     const balance = await coinClient.checkBalance(address);

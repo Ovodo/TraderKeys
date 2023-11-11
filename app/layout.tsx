@@ -1,9 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Jim_Nightshade } from "next/font/google";
-import { Julius_Sans_One } from "next/font/google";
-import { Jura } from "next/font/google";
-
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/server/auth";

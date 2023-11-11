@@ -1,9 +1,6 @@
 import React from "react";
 import { Session } from "next-auth";
 import { getServerAuthSession } from "@/server/auth";
-import { getTradeHistory } from "@/lib/contract";
-import InputLine from "@/components/input/InputLine";
-import { newUser } from "@/lib/actions";
 import Security from "@/components/Security";
 import { baseUrl } from "@/config";
 import { decrypt } from "@/lib/security";
