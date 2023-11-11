@@ -16,7 +16,6 @@ const SearchComponent = () => {
         onChange={(e) => dispatch(setText(e.target.value))}
         type='text'
       />
-      {/* <p>{text}</p> */}
     </div>
   );
 };

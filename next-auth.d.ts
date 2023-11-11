@@ -16,10 +16,7 @@ declare module "next-auth" {
     id: sting;
     name: string;
     username: string;
-    username: string;
     image: string;
-    key?: string;
-    address: string;
     key?: string;
     address: string;
     privateKey: string;
