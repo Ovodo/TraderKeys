@@ -15,7 +15,7 @@ const ArticleItem = ({ article }: { article: Article }) => {
         src={article.thumbnail}
       />
       {/* </Link> */}
-      <div className='flex w-full relative items-center flex-col'>
+      <div className='flex w-full text-black relative items-center flex-col'>
         <Link className='cursor-pointer' href={article.url}>
           <h4 className='font-bold underline text-xl'>{article.title} </h4>
         </Link>

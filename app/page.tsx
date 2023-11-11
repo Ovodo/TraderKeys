@@ -25,8 +25,6 @@ const fetchNews = async () => {
 
     const data = await res.json();
     const data2 = await res2.json();
-    console.log("data", data);
-    console.log("data2", data2);
     return (data.data as Article[])?.concat(data2.data);
   } catch (error) {
     console.error(error);
@@ -35,7 +33,6 @@ const fetchNews = async () => {
 
 const Page = async () => {
   const feed: Article[] = (await fetchNews()) as Article[];
-  console.log("feed", feed);
 
   return (
     <main className='flex max-h-screen overflow-scroll scrollbar-hide relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-start px-10 py-5'>
