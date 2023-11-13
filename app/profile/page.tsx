@@ -69,17 +69,14 @@ export default async function Home({ searchParams }: Props) {
               <h4 className='text-5xl text-appBlue font-semibold'>
                 {init_Key ? init_Key.name : "Initialize"}
               </h4>
-              <Link
-                href={`/keys/${init_Key?.name.slice(1, init_Key.name.length)}`}
-              >
-                <Image
-                  width={30}
-                  height={30}
-                  className='rotate-90 cursor-pointer'
-                  src={Key}
-                  alt='keys'
-                />
-              </Link>
+
+              <Image
+                width={30}
+                height={30}
+                className='rotate-90 cursor-pointer'
+                src={Key}
+                alt='keys'
+              />
               <h4 className='text-5xl text-appBlue font-semibold'>
                 {keyBalance}
               </h4>

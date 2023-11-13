@@ -9,9 +9,11 @@ const itemStyle = "text-lg text-slate-900 text-center border-r border-black";
 
 const Accounts = ({ data }: { data: User[] }) => {
   const { text } = useAppSelector((state) => state.Search);
+  console.log(data);
+
   const users = data.filter(
     (item) =>
-      (item.key as string).toLowerCase().includes(text.toLowerCase()) ||
+      (item.key as string)?.toLowerCase().includes(text.toLowerCase()) ||
       item.name.toLowerCase().includes(text.toLowerCase())
   );
 
@@ -43,7 +45,9 @@ const Accounts = ({ data }: { data: User[] }) => {
               <p className={itemStyle}>{index + 1}</p>
               <p className={itemStyle}>{user.name ?? "__"}</p>
               <Link href={`/keys/${user.key?.slice(1, user.key.length)}`}>
-                <p className={`${itemStyle}`}>{user.key}</p>
+                <p className={`${itemStyle}`}>
+                  {user.key?.slice(0, 5).concat("...") || "---"}
+                </p>
               </Link>
               <p className='text-lg text-slate-900 text-center'>{price}</p>
             </div>
