@@ -66,7 +66,7 @@ const InitModal = ({ user }: { user: User }) => {
           <p className={`${error ? "text-red-600" : "text-green-600"}`}>
             {error || message}
           </p>
-          <Link href={"/"}>
+          <Link href={"/profile"}>
             <button
               className={`${
                 error ? "bg-appOrange" : "bg-appGreen"

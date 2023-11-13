@@ -86,7 +86,7 @@ export default async function Home({ searchParams }: Props) {
             </div>
           </Link>
 
-          {!init_Key && <AddButton path='/?modal=true' />}
+          {!init_Key && <AddButton path='?modal=true' />}
         </div>
         <div className='text-appBlue absolute space-y-4 top-5 right-10 borde flex flex-col items-center justify-around text-lg'>
           <div className='flex'>
