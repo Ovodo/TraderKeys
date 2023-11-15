@@ -6,7 +6,12 @@ import { ScaleLoader } from "react-spinners";
 import { motion } from "framer-motion";
 import InputLine from "../input/InputLine";
 import { User } from "@/lib/types";
-import { getSellPrice, getSellPriceAfterFees, sellKeys } from "@/lib/contract";
+import {
+  getKeyBalance,
+  getSellPrice,
+  getSellPriceAfterFees,
+  sellKeys,
+} from "@/lib/contract";
 import useFonts from "@/hooks/useFonts";
 type Props = {
   author: string;
@@ -49,16 +54,22 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
   useEffect(() => {
     // function to set Prices before and after fees as soon as the user enters amount
     const setPrices = async () => {
-      if (amount !== 0 || keyAddress !== "") {
-        const price = await getSellPrice(keyAddress, amount);
-        const priceAfter = await getSellPriceAfterFees(keyAddress, amount);
-        setPrice(price);
-        setPriceAfterFees(priceAfter);
-      } else {
-        return;
-      }
+      // const balance = await getKeyBalance(user.publicKey, keyAddress);
+      // console.log(amount, "is less than", balance);
+      // if (amount < balance) {
+      //   // setError("Not enough keys to sell");
+      //   console.log("wrong");
+
+      //   return;
+      // }
+      const price = await getSellPrice(keyAddress, amount);
+      const priceAfter = await getSellPriceAfterFees(keyAddress, amount);
+      setPrice(price);
+      setPriceAfterFees(priceAfter);
     };
-    setPrices();
+    if (amount !== 0 && keyAddress !== "") {
+      setPrices();
+    }
   }, [amount, keyAddress]);
 
   // Logic to display loading, error and success messages when the user confirms the transaction or action
@@ -66,7 +77,7 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
   if (isLoading) {
     return (
       <div
-        className={`absolute ${agba.className} top-0 flex items-center justify-center left-0 w-full h-full`}
+        className={`absolute ${agba.className} text-black top-0 flex items-center justify-center left-0 w-full h-full`}
       >
         <motion.div
           initial={{ width: "0%" }}
@@ -83,7 +94,7 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
   if (error || message) {
     return (
       <div
-        className={`absolute ${agba.className} top-0 flex items-center justify-center left-0 w-full h-full`}
+        className={`absolute ${agba.className} text-black top-0 flex items-center justify-center left-0 w-full h-full`}
       >
         <motion.div
           initial={{ width: "0%" }}
@@ -114,7 +125,7 @@ const SellModal = ({ author, keyAddress, user }: Props) => {
 
   return (
     <div
-      className={`absolute ${agba.className}  top-0 flex items-center justify-center left-0 w-full h-full`}
+      className={`absolute ${agba.className} text-black  top-0 flex items-center justify-center left-0 w-full h-full`}
     >
       <div className='w-full h-full absolute top-0 left-0 z-10  flex items-center justify-center bg-opacity-70 bg-slate-800'></div>
       <motion.div

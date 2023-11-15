@@ -66,12 +66,13 @@ const Page = async ({
         {user.publicKey === singleKey.address && (
           <>
             <h4 className='text-3xl text-appBlue font-semibold'>New Ticket</h4>
-            <AddButton path='?modal=true' />)
+            <AddButton path='?modal=true' />
           </>
         )}
       </div>
       <h4 className='text-2xl absolute bottom-3 left-2 text-appBlue font-semibold'>
-        {`${session.user.name}`}
+        Each ticket represent a buy order for an assets. Add tickets to your key
+        to increase the PNL value
       </h4>
       <section
         id='TOP'

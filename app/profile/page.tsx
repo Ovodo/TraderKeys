@@ -57,6 +57,11 @@ export default async function Home({ searchParams }: Props) {
     (key: PrivateKey) => key.address === session.user.address
   );
 
+  const keyName: string =
+    init_Key.name.length > 9
+      ? init_Key.name.slice(0, 5).concat("...")
+      : init_Key.name;
+
   const itemStyle =
     "text-lg text-slate-900 flex items-center justify-center border-r border-black";
 
@@ -67,7 +72,7 @@ export default async function Home({ searchParams }: Props) {
           <Link href={`/keys/${init_Key?.name.slice(1, init_Key.name.length)}`}>
             <div className='flex space-x-12  items-center'>
               <h4 className='text-5xl text-appBlue font-semibold'>
-                {init_Key ? init_Key.name : "Initialize"}
+                {init_Key ? keyName : "Initialize"}
               </h4>
 
               <Image
@@ -120,6 +125,11 @@ export default async function Home({ searchParams }: Props) {
           const name: PrivateKey = keys.find(
             (key: PrivateKey) => key.address === item.address
           );
+          const keyName: string =
+            name.name.length > 9
+              ? name.name.slice(0, 5).concat("...")
+              : name.name;
+
           return (
             <div
               key={item.address}
@@ -131,7 +141,7 @@ export default async function Home({ searchParams }: Props) {
                 href={`/keys/${name.name.slice(1, name.name.length)}`}
               >
                 <p>
-                  {`${item.address.slice(0, 5).concat("...")} (${name.name})`}
+                  {`${item.address.slice(0, 5).concat("...")} (${keyName})`}
                 </p>
               </Link>
               <p className={itemStyle}>{item.keys}</p>
@@ -140,7 +150,7 @@ export default async function Home({ searchParams }: Props) {
                 className='flex items-center justify-center'
                 href={`?sell=${item.address}&name=${name.name}`}
               >
-                <button className='bg-appOrange px-4 my-1 rounded-sm py-1'>
+                <button className='bg-appOrange  px-4 my-1 rounded-sm py-1'>
                   Sell
                 </button>
               </Link>

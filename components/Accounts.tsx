@@ -35,8 +35,8 @@ const Accounts = ({ data }: { data: User[] }) => {
           <p className={itemStyle}>KEY</p>
           <p className='text-lg text-slate-900 text-center'>PRICE</p>
         </div>
-        {users.map((user, index) => {
-          const price = getBuyPrice(user.address, 1);
+        {users.map(async (user, index) => {
+          const price = await getBuyPrice(user.address, 1);
           return (
             <div
               key={user.address}
