@@ -9,7 +9,7 @@ const itemStyle = "text-lg text-slate-900 text-center border-r border-black";
 
 const Accounts = ({ data }: { data: User[] }) => {
   const { text } = useAppSelector((state) => state.Search);
-  console.log(data);
+  console.log("data", data);
 
   const users = data.filter(
     (item) =>
@@ -46,7 +46,7 @@ const Accounts = ({ data }: { data: User[] }) => {
               <p className={itemStyle}>{user.name ?? "__"}</p>
               <Link href={`/keys/${user.key?.slice(1, user.key.length)}`}>
                 <p className={`${itemStyle}`}>
-                  {user.key?.slice(0, 5).concat("...") || "---"}
+                  {user.key?.slice(0, 7).concat("...") || "---"}
                 </p>
               </Link>
               <p className='text-lg text-slate-900 text-center'>{price}</p>

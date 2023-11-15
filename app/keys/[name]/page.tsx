@@ -70,7 +70,7 @@ const Page = async ({
           </>
         )}
       </div>
-      <h4 className='text-2xl absolute bottom-3 left-2 text-appBlue font-semibold'>
+      <h4 className='text-xl absolute bottom-3 left-2 text-appBlue font-semibold'>
         Each ticket represent a buy order for an assets. Add tickets to your key
         to increase the PNL value
       </h4>
