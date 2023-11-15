@@ -8,7 +8,7 @@ async function init(request: Request) {
     const allusers = await db.collection("users").find({}).toArray();
     console.log("users", allusers);
 
-    return Response.json(allusers);
+    return Response.json(allusers, { status: 200 });
   } catch (error) {
     console.error("getUsers Error:", error);
 
