@@ -58,9 +58,9 @@ export default async function Home({ searchParams }: Props) {
   );
 
   const keyName: string =
-    init_Key.name.length > 9
-      ? init_Key.name.slice(0, 5).concat("...")
-      : init_Key.name;
+    init_Key?.name.length > 9
+      ? init_Key?.name.slice(0, 5).concat("...")
+      : init_Key?.name;
 
   const itemStyle =
     "text-lg text-slate-900 flex items-center justify-center border-r border-black";
@@ -69,7 +69,9 @@ export default async function Home({ searchParams }: Props) {
     <main className='flex min-h-screen relative bg-gradient-to-b from-appRed to-appYellow flex-col items-center justify-between p-24'>
       <section id='TOP' className='flex justify-start w-full'>
         <div className='flex flex-col absolute top-5 left-10  items-center'>
-          <Link href={`/keys/${init_Key?.name.slice(1, init_Key.name.length)}`}>
+          <Link
+            href={`/keys/${init_Key?.name.slice(1, init_Key?.name.length)}`}
+          >
             <div className='flex space-x-12  items-center'>
               <h4 className='text-5xl text-appBlue font-semibold'>
                 {init_Key ? keyName : "Initialize"}
