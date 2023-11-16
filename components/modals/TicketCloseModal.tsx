@@ -40,7 +40,7 @@ const TicketCloseModal = ({ author, id }: Props) => {
   if (isLoading) {
     return (
       <div
-        className={`absolute ${agba.className} top-0 flex items-center justify-center left-0 w-full h-full`}
+        className={`absolute ${agba.className} text-black top-0 flex items-center justify-center left-0 w-full h-full`}
       >
         <motion.div
           initial={{ width: "0%" }}
@@ -57,7 +57,7 @@ const TicketCloseModal = ({ author, id }: Props) => {
   if (error || message) {
     return (
       <div
-        className={`absolute ${agba.className} top-0 flex items-center justify-center left-0 w-full h-full`}
+        className={`absolute ${agba.className} text-black top-0 flex items-center justify-center left-0 w-full h-full`}
       >
         <motion.div
           initial={{ width: "0%" }}
@@ -87,7 +87,7 @@ const TicketCloseModal = ({ author, id }: Props) => {
 
   return (
     <div
-      className={`absolute ${agba.className} top-0 flex items-center justify-center left-0 w-full h-full`}
+      className={`absolute ${agba.className} text-black top-0 flex items-center justify-center left-0 w-full h-full`}
     >
       <div className='w-full h-full absolute top-0 left-0 z-10  flex items-center justify-center bg-opacity-70 bg-slate-800'></div>
       <motion.div

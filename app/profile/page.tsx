@@ -128,9 +128,9 @@ export default async function Home({ searchParams }: Props) {
             (key: PrivateKey) => key.address === item.address
           );
           const keyName: string =
-            name.name.length > 9
-              ? name.name.slice(0, 5).concat("...")
-              : name.name;
+            name?.name.length > 9
+              ? name?.name.slice(0, 5).concat("...")
+              : name?.name;
 
           return (
             <div
@@ -140,7 +140,7 @@ export default async function Home({ searchParams }: Props) {
               <p className={itemStyle}>{index}</p>
               <Link
                 className={itemStyle}
-                href={`/keys/${name.name.slice(1, name.name.length)}`}
+                href={`/keys/${name?.name.slice(1, name?.name.length)}`}
               >
                 <p>
                   {`${item.address.slice(0, 5).concat("...")} (${keyName})`}
@@ -150,7 +150,7 @@ export default async function Home({ searchParams }: Props) {
               <p className={itemStyle}>{value}</p>
               <Link
                 className='flex items-center justify-center'
-                href={`?sell=${item.address}&name=${name.name}`}
+                href={`?sell=${item.address}&name=${name?.name}`}
               >
                 <button className='bg-appOrange  px-4 my-1 rounded-sm py-1'>
                   Sell
